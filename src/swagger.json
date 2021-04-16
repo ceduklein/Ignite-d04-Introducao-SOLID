@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ignite - S.O.L.I.D. and Swagger Documentation",
+    "description": "This is an API for creating, consulting and listing users.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "c.edudepaula@yahoo.com.br"
+    }
+  },
+  "paths": {
+
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create user",
+        "description": "Create a new user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Name Sample",
+                  "email": "sample@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "type":"string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type":"string"
+                    },
+                    "email": {
+                      "type":"string",
+                      "format": "email"
+                    },
+                    "admin": {
+                      "type":"boolean",
+                      "default": "false"
+                    },
+                    "created_at": {
+                      "type":"string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "This e-mail has already been registered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "This e-mail has already been registered."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List Users",
+        "description": "List all users",
+        "parameters": [{
+          "name": "user_id",
+          "in": "header",
+          "required": "true",
+          "schema": {
+            "type":"string",
+            "format":"uuid"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type":"object",
+                    "properties": {
+                      "id": {
+                        "type":"string",
+                        "format": "uuid"
+                      },
+                      "name": {
+                        "type":"string",
+                        "default": "Name Sample"
+                      },
+                      "email": {
+                        "type":"string",
+                        "format": "email"
+                      },
+                      "admin": {
+                        "type":"boolean",
+                        "default": "true"
+                      },
+                      "created_at": {
+                        "type":"string",
+                        "format": "date-time"
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found or unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found or unauthorized."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/:user_id/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Set Admin.",
+        "description": "Set user as admin",
+        "parameters": [{
+          "name": "user_id",
+          "required": "true",
+          "in": "path",
+          "schema": {
+            "type": "string",
+            "format":"uuid"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "type":"string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type":"string"
+                    },
+                    "email": {
+                      "type":"string",
+                      "format": "email"
+                    },
+                    "admin": {
+                      "type":"boolean",
+                      "default": "true"
+                    },
+                    "created_at": {
+                      "type":"string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/:user_id": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Show User Profile.",
+        "description": "Show user profile",
+        "parameters": [{
+          "name": "user_id",
+          "required": "true",
+          "in": "path",
+          "schema": {
+            "type": "string",
+            "format":"uuid"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type":"object",
+                  "properties": {
+                    "id": {
+                      "type":"string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type":"string"
+                    },
+                    "email": {
+                      "type":"string",
+                      "format": "email"
+                    },
+                    "admin": {
+                      "type":"boolean",
+                      "default": "true"
+                    },
+                    "created_at": {
+                      "type":"string",
+                      "format": "date-time"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}

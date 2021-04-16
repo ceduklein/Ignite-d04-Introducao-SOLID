@@ -94,3 +94,5 @@ A propriedade admin deve sempre ser iniciada como `false` e o `id` deve ser um `
 - Execute o comando `yarn dev` para rodar a aplicação em modo de desenvolvimento.
 
 - Execute o comando `yarn test` para rodar os testes.
+
+- A documentação da api estará disponível em: http://localhost:3333/api-docs
